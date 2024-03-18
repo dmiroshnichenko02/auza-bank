@@ -1,24 +1,30 @@
-export class Layout {
+import { $A } from '@/core/component/aquery/aquery.lib'
+import ChildComponent from '@/core/component/child.component'
+import renderService from '@/core/services/render.service'
+
+import styles from './layout.module.scss'
+import template from './layout.template.html'
+
+import { Header } from './header/header.component'
+
+export class Layout extends ChildComponent {
 	constructor({ router, children }) {
-		this.children = children
+		super()
+
 		this.router = router
+		this.children = children
 	}
 
 	render() {
-		const headerElement = `<header class="header">
-		Header
-		<nav>
-			<a href="/">Home</a>
-			<a href="/auth">Auth</a>
-			<a href="/about-us">About Us</a>
-		</nav>
-		</header>`
+		this.element = renderService.htmlToElement(template, [], styles)
 
-		return `
-			${headerElement}
-			<main class="main">
-			${this.children}
-			</main>
-		`
+		const mainElement = $A(this.element).find('main')
+
+		const contentContainer = $A(this.element).find('#content')
+		contentContainer.append(this.children)
+
+		mainElement.before(new Header().render()).append(contentContainer.element)
+
+		return this.element
 	}
 }

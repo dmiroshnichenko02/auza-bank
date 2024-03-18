@@ -1,6 +1,6 @@
 import ChildComponent from '../component/child.component'
 
-export class RenderService {
+class RenderService {
 	/**
 	 * @param {string} html
 	 * @param {Array} components
@@ -11,20 +11,20 @@ export class RenderService {
 		const template = document.createElement('template')
 		template.innerHTML = html.trim()
 
-		const element = template.content.firstElementChild
-
-		this.#replaceComponentTags(element, components)
+		const element = template.content.firstChild
 
 		if (styles) {
 			this.#applyModuleStyles(styles, element)
 		}
 
+		this.#replaceComponentTags(element, components)
+
 		return element
 	}
 
 	/**
-	 * @param {HTMLElement} - parentElement
-	 * @param {Array} - components
+	 * @param {HTMLElement} parentElement
+	 * @param {Array} components
 	 */
 	#replaceComponentTags(parentElement, components) {
 		const componentTagPattern = /^component-/
@@ -52,15 +52,16 @@ export class RenderService {
 					element.replaceWith(componentContent)
 				} else {
 					console.error(
-						`Component ${componentName} not found in the provider components array.`
+						`Component "${componentName}" not found in the provided components array.`
 					)
 				}
 			}
 		}
 	}
+
 	/**
-	 * @param {Object} - moduleStyles
-	 * @param {string} - element
+	 * @param {Object} moduleStyles
+	 * @param {string} element
 	 * @returns {void}
 	 */
 	#applyModuleStyles(moduleStyles, element) {
@@ -80,7 +81,6 @@ export class RenderService {
 		}
 
 		const elements = element.querySelectorAll('*')
-
 		elements.forEach(applyStyles)
 	}
 }

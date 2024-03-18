@@ -1,7 +1,6 @@
 export default class ChildComponent {
 	/**
-	 * Render method must be implemented in the child class.
-	 *
+	 * Render the child component content.
 	 * @returns {HTMLElement}
 	 */
 	render() {
