@@ -1,4 +1,8 @@
 import { BaseScreen } from '@/core/component/base-screen.component'
+import renderService from '@/core/services/render.service'
+
+import styles from './auth.module.scss'
+import html from './auth.template.html'
 
 export class Auth extends BaseScreen {
 	constructor() {
@@ -8,6 +12,8 @@ export class Auth extends BaseScreen {
 	}
 
 	render() {
-		return `<h1>Auth</h1>`
+		const element = renderService.htmlToElement(html, [], styles)
+
+		return element
 	}
 }

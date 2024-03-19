@@ -85,6 +85,20 @@ class AuzaQuery {
 		}
 	}
 
+	/**
+	 * Get or set the inner HTML of the selected element.
+	 * @param {string} [textContent] - Optional Html content to set. if not provided, the current inner HTML will be returned.
+	 * @returns {AuzaQuery|string} - The current AuzaQuery instance for chaining when setting HTML content, or the current inner HTML when getting.
+	 */
+	text(textContent) {
+		if (typeof textContent === 'undefined') {
+			return this.element.innerHTML
+		} else {
+			this.element.innerHTML = textContent
+			return this
+		}
+	}
+
 	// EVENTS
 
 	/**
@@ -189,7 +203,7 @@ class AuzaQuery {
 
 	/**
 	 * Adds a class or a list of classes to the current element.
-	 * @param {string | string[]} classNames - A single class name or on array of class names to add to the element
+	 * @param {string|string[]} classNames - A single class name or on array of class names to add to the element
 	 * @returns {AuzaQuery} - The current AuzaQuery instance for chaining.
 	 */
 	addClass(classNames) {
@@ -217,6 +231,25 @@ class AuzaQuery {
 			this.element.classList.remove(classNames)
 		}
 		return this
+	}
+
+	/**
+	 * Set or get the value of an attribute on the selected element.
+	 * @param {string} attributeName - The name of the attribute to set or get.
+	 * @param {string} [value] - The value to set for the attribute. If not provided, the current value of the attribute will be returned.
+	 * @returns {RQuery|string} The current RQuery instance for chaining (if setting) or the attribute value (if getting).
+	 */
+	attr(attributeName, value) {
+		if (typeof attributeName !== 'string') {
+			throw new Error('Attribute name must be a string')
+		}
+
+		if (typeof value === 'undefined') {
+			return this.element.getAttribute(attributeName)
+		} else {
+			this.element.setAttribute(attributeName, value)
+			return this
+		}
 	}
 }
 
