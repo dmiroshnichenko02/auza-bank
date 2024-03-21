@@ -1,4 +1,7 @@
 import { SERVER_URL } from '@/config/ulr.config'
+import { ACCESS_TOKEN_KEY } from '@/constansts/auth.constants'
+import { NotificationService } from '../services/notification.service'
+import { StorageService } from '../services/storage.service'
 import { extractErrorMessage } from './extract-error-message'
 
 /**
@@ -30,7 +33,7 @@ export async function auzaQuery({
 
 	// ACCESS_TOKEN
 
-	const accessToken = ''
+	const accessToken = new StorageService().getItem(ACCESS_TOKEN_KEY)
 
 	const requestOptions = {
 		method,
@@ -64,15 +67,19 @@ export async function auzaQuery({
 			if (onError) {
 				onError(errorMessage)
 			}
-		}
 
-		// Notification error
+			// Notification error
+
+			new NotificationService().show('error', errorMessage)
+		}
 	} catch (error) {
 		const errorMessage = extractErrorMessage(error)
 
 		if (errorMessage) {
 			onError(errorMessage)
 		}
+
+		new NotificationService().show('error', errorMessage)
 	} finally {
 		isLoading = false
 	}
