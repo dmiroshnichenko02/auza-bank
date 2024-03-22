@@ -335,6 +335,7 @@ class AuzaQuery {
 		}
 
 		this.element.removeAttribute(attrName)
+		return this
 	}
 }
 

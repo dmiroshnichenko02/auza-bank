@@ -7,7 +7,7 @@ export class CardService {
 
 	constructor() {
 		// store
-		this.store = Store.getInstance()
+		this.store = Store.getInstance().state
 
 		this.notificationService = new NotificationService()
 	}
@@ -55,7 +55,7 @@ export class CardService {
 			method: 'PATCH',
 			body: {
 				amount: +amount,
-				fromCardNumber: this.store.card.number,
+				fromCardNumber: this.store.user.card.number,
 				toCardNumber
 			},
 			onSuccess: () => {

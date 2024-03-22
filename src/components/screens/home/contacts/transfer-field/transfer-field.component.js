@@ -19,7 +19,7 @@ export class TransferField extends ChildComponent {
 	constructor() {
 		super()
 
-		this.store = Store.getInstance.state
+		this.store = Store.getInstance().state
 		this.notificationService = new NotificationService()
 		this.cardService = new CardService()
 	}
@@ -28,16 +28,17 @@ export class TransferField extends ChildComponent {
 		event.preventDefault()
 
 		if (!this.store.user) {
-			this.notificationService.show('error', 'You need authorization')
+			this.notificationService.show('error', 'You need authorization!')
 		}
 
-		$A(this.element).text('Sending...').attr('disabled', true)
+		$A(event.target).text('Sending...').attr('disabled', true)
 
 		const inputElement = $A(this.element).find('input')
 		const toCardNumber = inputElement.value().replaceAll('-', '')
 
 		const reset = () => {
-			$A(this.element).removeAttr('disabled').text('Send')
+			console.log(event.target)
+			$A(event.target).removeAttr('disabled').text('Send')
 		}
 
 		if (!toCardNumber) {
