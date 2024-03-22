@@ -1,11 +1,13 @@
 import { auzaQuery } from '@/core/auza-query/auza-query.lib'
 import { NotificationService } from '@/core/services/notification.service'
+import { Store } from '@/store/store'
 
 export class CardService {
 	#BASE_URL = '/cards'
 
 	constructor() {
 		// store
+		this.store = Store.getInstance()
 
 		this.notificationService = new NotificationService()
 	}

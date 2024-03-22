@@ -39,6 +39,17 @@ class AuzaQuery {
 		}
 	}
 
+	/**
+	 * Finds all elements that match the given selector.
+	 *
+	 * @param {string} selector - The CSS selector to match elements against.
+	 * @return {AuzaQuery[]} An array of AuzaQuery objects representing the matched elements.
+	 */
+	findAll(selector) {
+		const elements = this.element.querySelectorAll(selector)
+		return Array.from(elements).map(element => new AuzaQuery(element))
+	}
+
 	// INSERT
 
 	/**
@@ -101,6 +112,15 @@ class AuzaQuery {
 
 	// EVENTS
 
+	on(eventType, callback) {
+		if (typeof eventType !== 'string' || typeof callback !== 'function') {
+			throw new Error('Invalid eventType or callback parameter')
+		}
+
+		this.element.addEventListener(eventType, callback)
+		return this
+	}
+
 	/**
 	 * Attach an event listener to the selected element.
 	 *
@@ -114,6 +134,23 @@ class AuzaQuery {
 	}
 
 	// FORMS
+
+	/**
+	 * Submit function to handle form submission.
+	 *
+	 * @param {function} onSubmit - Callback function to handle form submission
+	 * @return {void}
+	 */
+	submit(onSubmit) {
+		if (this.element.tagName.toLocaleLowerCase() === 'form') {
+			this.element.addEventListener('submit', e => {
+				e.preventDefault()
+				onSubmit(e)
+			})
+		} else {
+			throw new Error('Element must be a form')
+		}
+	}
 
 	/**
 	 * Set attributes and event listeners for an input element.
@@ -185,6 +222,26 @@ class AuzaQuery {
 	}
 
 	// STYLES
+
+	/**
+	 * Removes the 'display' property from the element's style and returns the current object.
+	 *
+	 * @return {AuzaQuery} - The current object.
+	 */
+	show() {
+		this.element.style.removeProperty('display')
+		return this
+	}
+
+	/**
+	 * Hides the element by setting its display style to 'none'.
+	 *
+	 * @return {AuzaQuery} The current object for method chaining.
+	 */
+	hide() {
+		this.element.style.display = 'none'
+		return this
+	}
 
 	/**
 	 * Set the CSS style of the selected element.

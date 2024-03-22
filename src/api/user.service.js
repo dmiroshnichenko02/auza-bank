@@ -1,6 +1,6 @@
 import { auzaQuery } from '@/core/auza-query/auza-query.lib'
 
-export class StatisticService {
+export class UserService {
 	#BASE_URL = '/users'
 
 	getAll(searchTerm, onSuccess) {

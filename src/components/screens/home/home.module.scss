@@ -1,5 +1,7 @@
+@import 'src/styles/variables';
+
 .home {
-	h1 {
-		font-size: 45px;
-	}
+	display: grid;
+	grid-template-columns: 2.2fr 1fr;
+	gap: $gap;
 }
