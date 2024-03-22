@@ -3,8 +3,10 @@ import renderService from '@/core/services/render.service'
 
 import { UserService } from '@/api/user.service'
 import { UserItem } from '@/components/ui/user-item/user-item.component'
+import { TRANSFER_FIELD_SELECTOR } from '@/constants/transfer.constants'
 import { $A } from '@/core/component/aquery/aquery.lib'
 import { debounce } from '@/utils/debounce.util'
+import { formatCardNumberWithDashes } from '@/utils/format/format-card-number'
 import styles from './search.module.scss'
 import html from './search.template.html'
 
@@ -30,6 +32,10 @@ export class Search extends ChildComponent {
 
 			users.forEach((user, index) => {
 				const userItem = new UserItem(user, true, () => {
+					$A(TRANSFER_FIELD_SELECTOR).value(
+						formatCardNumberWithDashes(user.card.number)
+					)
+
 					searchResultElement.html('')
 				}).render()
 

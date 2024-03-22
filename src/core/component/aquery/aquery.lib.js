@@ -136,6 +136,20 @@ class AuzaQuery {
 	// FORMS
 
 	/**
+	 * A method to get or set the value of an element.
+	 *
+	 * @param {string} [newValue] - The new value to set for the element.
+	 * @return {string|AuzaQuery} - The current value of the element or the current AuzaQuery instance for chaining.
+	 */
+	value(newValue) {
+		if (typeof newValue === 'undefined') {
+			return this.element.value
+		} else {
+			this.element.value = newValue
+		}
+	}
+
+	/**
 	 * Submit function to handle form submission.
 	 *
 	 * @param {function} onSubmit - Callback function to handle form submission
@@ -307,6 +321,20 @@ class AuzaQuery {
 			this.element.setAttribute(attributeName, value)
 			return this
 		}
+	}
+
+	/**
+	 * Removes the specified attribute from the element.
+	 *
+	 * @param {string} attrName - The name of the attribute to be removed.
+	 * @returns {AuzaQuery} - The current AuzaQuery instance for chaining.
+	 */
+	removeAttr(attrName) {
+		if (typeof attrName !== 'string') {
+			throw new Error('Attribute name must be a string')
+		}
+
+		this.element.removeAttribute(attrName)
 	}
 }
 

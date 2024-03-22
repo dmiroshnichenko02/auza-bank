@@ -5,7 +5,13 @@ export class UserService {
 
 	getAll(searchTerm, onSuccess) {
 		return auzaQuery({
-			path: `${this.#BASE_URL}${searchTerm ? `?${new URLSearchParams(searchTerm)}` : ''}`,
+			path: `${this.#BASE_URL}${
+				searchTerm
+					? `?${new URLSearchParams({
+							searchTerm
+						})}`
+					: ''
+			}`,
 			onSuccess
 		})
 	}

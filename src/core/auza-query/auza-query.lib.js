@@ -1,7 +1,9 @@
-import { SERVER_URL } from '@/config/ulr.config'
-import { ACCESS_TOKEN_KEY } from '@/constansts/auth.constants'
+import { SERVER_URL } from '@/config/url.config'
+
 import { NotificationService } from '../services/notification.service'
 import { StorageService } from '../services/storage.service'
+
+import { ACCESS_TOKEN_KEY } from '@/constants/auth.constants'
 import { extractErrorMessage } from './extract-error-message'
 
 /**
@@ -17,21 +19,20 @@ import { extractErrorMessage } from './extract-error-message'
  * @param {Function} [options.onError=null] - Callback function to be called on error response.
  * @returns {Promise<{isLoading: boolean, error: string|null, data: any|null}>} - An object containing the loading state, error, and data from the response.
  */
-
 export async function auzaQuery({
 	path,
-	method = 'GET',
 	body = null,
 	headers = {},
-	onSuccess = null,
-	onError = null
+	method = 'GET',
+	onError = errorData => {
+		console.log(errorData)
+	},
+	onSuccess = null
 }) {
-	let isLoading = true
-	let eror = null
-	let data = null
+	let isLoading = true,
+		error = null,
+		data = null
 	const url = `${SERVER_URL}/api${path}`
-
-	// ACCESS_TOKEN
 
 	const accessToken = new StorageService().getItem(ACCESS_TOKEN_KEY)
 
@@ -56,33 +57,29 @@ export async function auzaQuery({
 
 		if (response.ok) {
 			data = await response.json()
+
 			if (onSuccess) {
 				onSuccess(data)
 			}
 		} else {
 			const errorData = await response.json()
-
 			const errorMessage = extractErrorMessage(errorData)
 
 			if (onError) {
 				onError(errorMessage)
 			}
 
-			// Notification error
-
 			new NotificationService().show('error', errorMessage)
 		}
-	} catch (error) {
-		const errorMessage = extractErrorMessage(error)
+	} catch (errorData) {
+		const errorMessage = extractErrorMessage(errorData)
 
 		if (errorMessage) {
 			onError(errorMessage)
 		}
-
-		new NotificationService().show('error', errorMessage)
 	} finally {
 		isLoading = false
 	}
 
-	return { isLoading, eror, data }
+	return { isLoading, error, data }
 }

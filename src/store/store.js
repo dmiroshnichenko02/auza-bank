@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY, USER_STORAGE_KEY } from '@/constansts/auth.constants'
+import { ACCESS_TOKEN_KEY, USER_STORAGE_KEY } from '@/constants/auth.constants'
 import { StorageService } from '@/core/services/storage.service'
 
 export class Store {

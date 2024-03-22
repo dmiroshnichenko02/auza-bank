@@ -2,6 +2,7 @@ import ChildComponent from '@/core/component/child.component'
 import renderService from '@/core/services/render.service'
 
 import { CardService } from '@/api/card.service'
+import { BALANCE_UPDATED } from '@/constants/event.constants'
 import { $A } from '@/core/component/aquery/aquery.lib'
 import { Store } from '@/store/store'
 import { formatCardNumber } from '@/utils/format/format-card-number'
@@ -19,6 +20,24 @@ export class CardInfo extends ChildComponent {
 		this.store = Store.getInstance()
 
 		this.element = renderService.htmlToElement(html, [], styles)
+
+		this.#addListeners()
+	}
+
+	#addListeners() {
+		document.addEventListener(BALANCE_UPDATED, this.#onBalanceUpdated)
+	}
+
+	#removeListeners() {
+		document.removeEventListener(BALANCE_UPDATED, this.#onBalanceUpdated)
+	}
+
+	#onBalanceUpdated = () => {
+		this.fetchData()
+	}
+
+	destroy() {
+		this.#removeListeners()
 	}
 
 	#copyCardNumber(e) {

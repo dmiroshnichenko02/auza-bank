@@ -1,11 +1,9 @@
 import ChildComponent from '@/core/component/child.component'
 import renderService from '@/core/services/render.service'
 
-import { $A } from '@/core/component/aquery/aquery.lib'
-import styles from './loader.module.scss'
 import html from './loader.template.html'
 
-export const LOADER_SELECTOR = ['data-component="loader"]']
+export const LOADER_SELECTOR = '[data-component="loader"]'
 
 export class Loader extends ChildComponent {
 	constructor(width = 100, height = 100) {
@@ -15,12 +13,10 @@ export class Loader extends ChildComponent {
 		this.height = height
 	}
 	render() {
-		this.element = renderService.htmlToElement(html, [], styles)
+		this.element = renderService.htmlToElement(html, [])
 
-		$A(this.element)
-			.css('width', `${this.width}px`)
-			.css('height', `${this.height}px`)
-			.addClass('bounce')
+		this.element.style = `width: ${this.width}px; height: ${this.height}px`
+		this.element.classList.add('bounce')
 
 		return this.element
 	}
