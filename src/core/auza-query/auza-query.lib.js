@@ -74,7 +74,7 @@ export async function auzaQuery({
 	} catch (errorData) {
 		const errorMessage = extractErrorMessage(errorData)
 
-		if (errorMessage) {
+		if (onError) {
 			onError(errorMessage)
 		}
 	} finally {

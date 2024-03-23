@@ -2,6 +2,7 @@ import ChildComponent from '@/core/component/child.component'
 import renderService from '@/core/services/render.service'
 
 import { CardService } from '@/api/card.service'
+import { Loader } from '@/components/ui/loader/loader.component'
 import { BALANCE_UPDATED } from '@/constants/event.constants'
 import { $A } from '@/core/component/aquery/aquery.lib'
 import { Store } from '@/store/store'
@@ -99,7 +100,13 @@ export class CardInfo extends ChildComponent {
 	}
 
 	render() {
-		if (this.store.state.user) this.fetchData()
+		if (this.store.state.user) {
+			$A(this.element).html(new Loader().render().outerHTML)
+
+			setTimeout(() => {
+				this.fetchData()
+			}, 500)
+		}
 
 		return this.element
 	}

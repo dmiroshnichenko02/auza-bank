@@ -63,7 +63,7 @@ export class Router {
 				children: component
 			}).render()
 
-			$A('#app').append(this.#layout)
+			$A('#app').html('').append(this.#layout)
 		} else {
 			$A('#content').html('').append(component)
 		}
